@@ -8,8 +8,34 @@
 import SwiftUI
 
 struct ScreenPanelForAdmins: View {
+    init() {
+        
+        UITabBar.appearance().barTintColor = UIColor.black
+        UITabBar.appearance().unselectedItemTintColor = UIColor.white
+    }
+    @State var selectedScreen = 0
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ZStack {
+            ScreenBackground()
+            
+            VStack {
+                TabView(selection: $selectedScreen) {
+                    
+                    ScreenUserProposals()
+                        .tabItem {
+                            Label("Ana Ekran", systemImage: "house")
+                        }.tag(0)
+                        .badge(2)
+                    ScreenUserProposals()
+                        .tabItem {
+                            Label("Ayarlar", systemImage: "gear")
+                        }.tag(1)
+                    
+                }
+                .tint(.orange)
+            }
+        }
     }
 }
 

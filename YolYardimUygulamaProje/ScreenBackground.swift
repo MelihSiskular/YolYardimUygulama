@@ -9,7 +9,18 @@ import SwiftUI
 
 struct ScreenBackground: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
+        //ARKA PLAN
+        LinearGradient(
+            gradient: Gradient(colors: [
+                Color(red: 0.1, green: 0.1, blue: 0.2),
+                Color(red: 1.0, green: 0.6, blue: 0.0)
+            ]),
+            startPoint: .bottom,
+            endPoint: .top
+        )
+        .ignoresSafeArea()
+ 
     }
 }
 

@@ -10,9 +10,22 @@
 		D7869D0D2DB2CE0B00596A02 /* YolYardimUygulamaProje.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YolYardimUygulamaProje.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		D7FB98D02DB308750065DE01 /* Exceptions for "YolYardimUygulamaProje" folder in "YolYardimUygulamaProje" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = D7869D0C2DB2CE0B00596A02 /* YolYardimUygulamaProje */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		D7869D0F2DB2CE0B00596A02 /* YolYardimUygulamaProje */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				D7FB98D02DB308750065DE01 /* Exceptions for "YolYardimUygulamaProje" folder in "YolYardimUygulamaProje" target */,
+			);
 			path = YolYardimUygulamaProje;
 			sourceTree = "<group>";
 		};
@@ -255,6 +268,8 @@
 				DEVELOPMENT_TEAM = 49CUMHZT5K;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = YolYardimUygulamaProje/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -284,6 +299,8 @@
 				DEVELOPMENT_TEAM = 49CUMHZT5K;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = YolYardimUygulamaProje/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
