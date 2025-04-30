@@ -21,6 +21,7 @@ struct ScreenLastik: View {
     @State private var location = CLLocationCoordinate2D()
     @State private var locationCity = ""
 
+    @State private var isShowLocationScreen = false
     
     let islemSecenekleri = ["Yeni Lastik", "Tamir", "Stepne Takım"]
     let inputSecenekleri = ["Ebata Göre","Modele Göre"]
@@ -40,6 +41,7 @@ struct ScreenLastik: View {
     let modeller = ["Sedan", "SUV", "Hatchback", "Pickup"]
     let yillar = (1995...2025).map { "\($0)" }
     var body: some View {
+        NavigationStack {
             ZStack {
                 ScreenBackground()
                 
@@ -58,9 +60,9 @@ struct ScreenLastik: View {
                             .frame(height: 1)
                             .opacity(0.4)
                     }
-                   
                     
-               
+                    
+                    
                     Picker("İşlem", selection: $secilenIslem) {
                         ForEach(islemSecenekleri, id: \.self) { islem in
                             Text(islem)
@@ -70,7 +72,7 @@ struct ScreenLastik: View {
                     .padding(.horizontal)
                     .cornerRadius(10)
                     .padding(.bottom)
-
+                    
                     
                     if secilenIslem == "Yeni Lastik" {
                         Picker("İşlem", selection: $secilenInput) {
@@ -119,9 +121,9 @@ struct ScreenLastik: View {
                                 .tint(.white)
                         }
                         
-                     
-
-
+                        
+                        
+                        
                     }else {
                         Spacer()
                         Text("Herhangi bir bilgiye ihtiyaç yok...")
@@ -153,7 +155,7 @@ struct ScreenLastik: View {
                         .multilineTextAlignment(.center)
                         .frame(maxWidth: .infinity)
                     }
-                   
+                    
                     Button(action: {
                         print("Seçilenler: \(secilenKategori ?? "") - \(secilenMarka ?? "") - \(secilenModel ?? "") - \(secilenYil ?? "")")
                         guard let konum = locationManager.currentLocation else { return }
@@ -165,6 +167,7 @@ struct ScreenLastik: View {
                                 locationCity = value
                             }
                         }
+                        isShowLocationScreen.toggle()
                     }) {
                         Text("Devam Et")
                             .font(.title3.bold())
@@ -215,12 +218,16 @@ struct ScreenLastik: View {
                           secilenYil == nil))
                         ? 0.5 : 1.0
                     )
+                    .navigationDestination(isPresented: $isShowLocationScreen) {
+                        ScreenLocationForCekici()
+                    }
                     .padding(.horizontal)
                     Spacer()
                 }
                 .padding()
                 
             }
+        }
         
         
         
