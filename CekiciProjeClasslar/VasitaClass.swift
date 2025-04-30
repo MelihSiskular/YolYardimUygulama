@@ -31,9 +31,7 @@ enum OtomobilMarka{
     , Toyota, Volkswagen, Volvo
 }
 
-class Cupra{
-    var cupraModel : String = "Leon"
-}
+
 
 
 
