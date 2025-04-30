@@ -21,7 +21,8 @@ struct ScreenCekici: View {
     @State private var location = CLLocationCoordinate2D()
     @State private var locationCity = ""
     
-    let kategoriler = ["Otomobil", "Ticari", "Arazi", "Motosiklet"]
+    
+    let kategoriler = ["Otomobil","Arazi", "Motosiklet"]
     let markalar = ["BMW", "Mercedes", "Toyota", "Renault", "Ford"]
     let modeller = ["Sedan", "SUV", "Hatchback", "Pickup"]
     let yillar = (1995...2025).map { "\($0)" }
@@ -30,11 +31,6 @@ struct ScreenCekici: View {
         NavigationStack {
             ZStack {
                 ScreenBackground()
-                
-                
-                
-                
-                
                 
                 VStack(spacing: 30) {
                     Text("Çekici Yardım")
@@ -160,6 +156,8 @@ struct ScreenCekici: View {
                     
                     
                 )
+            
+            
             
             return Picker(selection: binding, label: label) {
                 Text("\(title) Seçiniz").tag("")

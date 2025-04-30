@@ -129,6 +129,7 @@ struct ContentView: View {
                         isShowRegisterScreen.toggle()
                         // Kayıt sayfasına geçiş
                     }) {
+                        
                         Text("👤Yeni Hesap Oluştur")
                             .font(.headline)
                             .foregroundColor(.white)
@@ -160,6 +161,16 @@ struct ContentView: View {
             }
            
         }
+        .onAppear(perform: {
+            let asd = Alfa_Romeo(alfaModel: .Giulietta, yil: 2002)
+            print(asd.arac)
+            print(asd.otomarka)
+            print(asd.alfaModel)
+            print(asd.yil)
+            
+            
+            
+        })
         .tint(.white)
     }
 }
