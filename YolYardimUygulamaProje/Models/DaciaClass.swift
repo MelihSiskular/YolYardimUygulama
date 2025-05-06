@@ -3,13 +3,18 @@ import Foundation
 class Dacia:Otomobil{
     var daciaModel: DaciaModel
 
-    init(daciaModel:DaciaModel,otomarka:OtomobilMarka,arac: AracTuru, yil:Int){
+    init(daciaModel:DaciaModel, yil:String,otomodel: Any){
         self.daciaModel = daciaModel
 
-        super.init(otomarka: otomarka, arac: arac, yil: yil)
+        super.init(otomarka: .Dacia, arac: .otomobil, yil: yil,otomodel: otomodel)
     }
 }
 
-enum DaciaModel{
+enum DaciaModel: String, CaseIterable, Identifiable,CustomStringConvertible{
     case Lodgy, Logan, Sandero, Solenza
+
+    var id: String {self.rawValue}
+    var description: String {
+        rawValue.replacingOccurrences(of: "_", with: " ")
+    }
 }

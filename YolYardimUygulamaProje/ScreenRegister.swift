@@ -59,7 +59,7 @@ struct ScreenRegister: View {
                     .textFieldStyleCustom()
                 
                 // Ad Soyad
-                TextField("Ad Soyad", text: $adSoyad)
+                TextField(isAdmin ? "Dükkan İsmi" : "Ad Soyad", text: $adSoyad)
                     .textFieldStyleCustom()
                 
                 // Şifre

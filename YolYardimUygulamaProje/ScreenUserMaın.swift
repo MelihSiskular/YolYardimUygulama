@@ -26,7 +26,7 @@ struct ScreenUserMain: View {
                         .fontWeight(.bold)
                         .foregroundColor(.white)
                         .shadow(color: .black.opacity(0.4), radius: 4, x: 2, y: 2)
-                        .padding(.top,60)
+                        .padding(.top,40)
                     
                     
                     Spacer()
@@ -46,6 +46,9 @@ struct ScreenUserMain: View {
                         Text("🚛 Çekici")
                             .bigServiceButton(colors: [Color.orange, Color.red])
                     }
+                    
+                    Spacer()
+                    
                     // 112 ACİL
                     Button(action: {
                         if let url = URL(string: "tel://112") {

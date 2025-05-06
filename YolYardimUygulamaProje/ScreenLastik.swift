@@ -25,9 +25,9 @@ struct ScreenLastik: View {
     
     let islemSecenekleri = ["Yeni Lastik", "Tamir", "Stepne Takım"]
     let inputSecenekleri = ["Ebata Göre","Modele Göre"]
-    let genislikler = ["155", "165", "175", "185", "195", "205"]
-    let oranlar = ["50", "55", "60", "65", "70"]
-    let caplar = ["13", "14", "15", "16", "17"]
+    let genislikler: [String] = stride(from: 145, through: 355, by: 10).map { String($0) }
+    let oranlar: [String] = stride(from: 25, through: 80, by: 5).map { String($0) }
+    let caplar = stride(from: 13, to: 24, by: 1).map{ String($0)}
     let mevsimler = ["Yaz", "Kış", "4 Mevsim"]
     
     
@@ -219,7 +219,7 @@ struct ScreenLastik: View {
                         ? 0.5 : 1.0
                     )
                     .navigationDestination(isPresented: $isShowLocationScreen) {
-                        ScreenLocationForCekici()
+                        ScreenOnaylandi()
                     }
                     .padding(.horizontal)
                     Spacer()

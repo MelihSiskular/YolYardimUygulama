@@ -51,7 +51,7 @@ struct ScreenPanelForUsers: View {
                 ScreenLastik()
             }
             .navigationDestination(isPresented: $isShowCekici) {
-                ScreenCekici()
+                ScreenCekici(offer: Vasita(arac: .otomobil, yil: "2000"))
             }
         }
     }

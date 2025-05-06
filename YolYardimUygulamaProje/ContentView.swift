@@ -28,10 +28,10 @@ struct ContentView: View {
                     
                     //Main Title
                     Text("Trakya Yol Yardım")
-                        .font(.custom("Orbitron-Bold", size: 38))
+                        .font(.system(size: 40)).bold().fontDesign(.default)
                         .foregroundColor(.white)
-                        .shadow(color: Color.black.opacity(0.5), radius: 6, x: 2, y: 2)
-                        .padding(.top,30)
+                        .shadow(color: Color.black.opacity(0.5), radius: 4, x: 1, y: 1)
+                        .padding(.top,40)
                     
                     Spacer()
                     
@@ -107,7 +107,7 @@ struct ContentView: View {
                                 .cornerRadius(10)
                                 .foregroundColor(.white)
                             
-                            Button("ADMİN GİRİŞİ") {
+                            Button("GİRİŞ YAP") {
                                 isShowAdminPanel.toggle()
                             }
                             .padding()
@@ -161,16 +161,6 @@ struct ContentView: View {
             }
            
         }
-        .onAppear(perform: {
-            let asd = Alfa_Romeo(alfaModel: .Giulietta, yil: 2002)
-            print(asd.arac)
-            print(asd.otomarka)
-            print(asd.alfaModel)
-            print(asd.yil)
-            
-            
-            
-        })
         .tint(.white)
     }
 }
