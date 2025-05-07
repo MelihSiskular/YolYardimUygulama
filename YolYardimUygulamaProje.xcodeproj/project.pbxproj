@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		D7ED95292DCAC8BE00D064B3 /* ParseSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D7ED95282DCAC8BE00D064B3 /* ParseSwift */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		D7869D0D2DB2CE0B00596A02 /* YolYardimUygulamaProje.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YolYardimUygulamaProje.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -36,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D7ED95292DCAC8BE00D064B3 /* ParseSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -78,6 +83,7 @@
 			);
 			name = YolYardimUygulamaProje;
 			packageProductDependencies = (
+				D7ED95282DCAC8BE00D064B3 /* ParseSwift */,
 			);
 			productName = YolYardimUygulamaProje;
 			productReference = D7869D0D2DB2CE0B00596A02 /* YolYardimUygulamaProje.app */;
@@ -107,6 +113,9 @@
 			);
 			mainGroup = D7869D042DB2CE0B00596A02;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				D7ED95272DCAC8BE00D064B3 /* XCRemoteSwiftPackageReference "Parse-Swift" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = D7869D0E2DB2CE0B00596A02 /* Products */;
 			projectDirPath = "";
@@ -341,6 +350,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D7ED95272DCAC8BE00D064B3 /* XCRemoteSwiftPackageReference "Parse-Swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/parse-community/Parse-Swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.14.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D7ED95282DCAC8BE00D064B3 /* ParseSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D7ED95272DCAC8BE00D064B3 /* XCRemoteSwiftPackageReference "Parse-Swift" */;
+			productName = ParseSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D7869D052DB2CE0B00596A02 /* Project object */;
 }

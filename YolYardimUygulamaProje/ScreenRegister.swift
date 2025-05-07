@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import ParseSwift
+
 
 struct ScreenRegister: View {
     @State private var email = ""
@@ -13,6 +15,9 @@ struct ScreenRegister: View {
     @State private var sifre = ""
     @State private var numara = ""
     @State private var isAdmin = false
+
+    @State private var showAlert = false
+    @State private var isSuccess = false // true: onaylandı, false: onaylanmadı
 
     
     @State private var secilenRol = "Kullanıcı"
@@ -74,6 +79,54 @@ struct ScreenRegister: View {
                 // Kayıt Ol Butonu
                 Button(action: {
                     print("Kayıt Ol tıklandı")
+                    if let currentUser = User.current {
+                        User.logout { result in
+                            switch result {
+                            case .success:
+                                print("Başarıyla çıkış yapıldı.")
+                                registerUser(email: email, password: sifre, fullName: adSoyad, phone: numara, isAdmin: isAdmin) { result in
+                                    switch result {
+                                    case .success:
+                                        isSuccess = true
+                                        email = ""
+                                        sifre = ""
+                                        adSoyad = ""
+                                        numara = ""
+                                        isAdmin = false
+                                        break
+                                    case.failure:
+                                        isSuccess = false
+                                        print("HATA")
+                                    }
+                                   
+                                    
+                                }
+                            case .failure(let error):
+                                print("Çıkış hatası: \(error.localizedDescription)")
+                            }
+                        }
+                    } else {
+                        registerUser(email: email, password: sifre, fullName: adSoyad, phone: numara, isAdmin: isAdmin) { result in
+                            switch result {
+                            case .success:
+                                isSuccess = true
+                                email = ""
+                                sifre = ""
+                                adSoyad = ""
+                                numara = ""
+                                isAdmin = false
+                                showAlert = true
+                                break
+                            case.failure:
+                                isSuccess = false
+                                print("HATA")
+                            }
+                            
+                        }
+                    }
+                    showAlert.toggle()
+
+                
                 }) {
                     Text("Kayıt Ol")
                         .font(.headline)
@@ -84,9 +137,52 @@ struct ScreenRegister: View {
                         .cornerRadius(12)
                         .shadow(radius: 4)
                 }
+                .alert(isPresented: $showAlert) {
+                    Alert(
+                        title: Text(isSuccess ? "✅ İşlem Onaylandı" : "❌ İşlem Reddedildi")
+                            .fontWeight(.bold),
+                        message: Text(isSuccess ? "Talebiniz başarıyla onaylandı." : "Üzgünüz, işlem gerçekleştirilemedi."),
+                        dismissButton: .default(Text("Tamam").foregroundColor(.orange))
+                    )
+                }
                 .padding(.top, 10)
             }
             .padding()
+        }
+        .hideKeyboardOnTap()
+    }
+    
+    func registerUser(email: String, password: String, fullName: String, phone: String, isAdmin: Bool, completion: @escaping (Result<Void, Error>) -> Void) {
+        var user = User()
+        user.username = email
+        user.password = password
+        user.email = email
+        
+        // Ekstra alanlar
+        user.fullName = fullName
+        user.phone = phone
+        user.isAdmin = isAdmin
+        
+        user.signup { result in
+            switch result {
+            case .success:
+                print("Kayıt başarılı.")
+                completion(.success(()))
+         
+                
+            case .failure(let error):
+                print("Kayıt hatası: \(error)")
+                completion(.failure(error))
+            }
+        }
+    }
+}
+
+extension View {
+    func hideKeyboardOnTap() -> some View {
+        self.onTapGesture {
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder),
+                                            to: nil, from: nil, for: nil)
         }
     }
 }

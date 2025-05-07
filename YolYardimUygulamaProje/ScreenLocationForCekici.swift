@@ -12,6 +12,23 @@ struct PinModel: Identifiable {
 struct ScreenLocationForCekici: View {
     @State private var konumAyarlandi = false
     @State private var isShowScreenOnaylandi = false
+ 
+    @Binding var kullanici: User?
+    @Binding var kategori: AracTuru?
+    @Binding var marka: OtomobilMarka?
+    @Binding var model: Any?
+
+    @Binding var secilenModel: String
+    @Binding var yil: String?
+    @Binding var longitudeAnlık: Double
+    @Binding var latitudeAnlık: Double
+
+    @State var longitudeHedef: Double = 0.0
+    @State var latitudeHedef: Double = 0.0
+
+    @State var offer : Vasita = Vasita(arac: .otomobil, yil: "0")
+
+
 
     @StateObject private var locationManager = LocationManager()
     
@@ -79,6 +96,44 @@ struct ScreenLocationForCekici: View {
                     Button(action: {
                         isShowScreenOnaylandi.toggle()
                         print("Devam Et tıklandı, konum: \(selectedPin?.coordinate.latitude ?? 0), \(selectedPin?.coordinate.longitude ?? 0)")
+                        switch kategori {
+                        case .otomobil:
+                            offer = Otomobil(otomarka: marka!, arac: kategori!, yil: yil!, otomodel: model!)
+                            
+                        case .motor:
+                            offer = Otomobil(otomarka: marka!, arac: kategori!, yil: yil!, otomodel: model!)
+                        case .suv:
+                            offer = Otomobil(otomarka: marka!, arac: kategori!, yil: yil!, otomodel: model!)
+                        case nil:
+                            print("unsucces")
+                        }
+                        
+                        switch offer {
+                        case let oto as Otomobil:
+                            print(oto.arac,oto.otomarka,oto.otomodel,oto.yil)
+                            kaydet(kategori: oto.arac,
+                                   marka: oto.otomarka,
+                                   model: secilenModel,
+                                   yil: oto.yil,
+                                   longituteHedef: longitudeHedef,
+                                   latitudeHedef: latitudeHedef,
+                                   longituteAnlık: longitudeAnlık,
+                                   latitudeAnlık: latitudeAnlık) { result in
+                                switch result {
+                                case .failure(let error):
+                                    print(error.localizedDescription)
+                                case .success(_):
+                                    print("succes")
+                                    
+                                }
+                            }
+                        case let motor as Otomobil:
+                            print("")
+                        case let suv as Otomobil:
+                            print("")
+                        default:
+                            print("unsucces")
+                        }
                         
                     }) {
                         Text("Devam Et")
@@ -148,6 +203,39 @@ struct ScreenLocationForCekici: View {
             }
         }
     }
+    func kaydet(
+        kategori: AracTuru,
+        marka: OtomobilMarka,
+        model: String,
+        yil: String,
+        longituteHedef: Double,
+        latitudeHedef: Double,
+        longituteAnlık: Double,
+        latitudeAnlık: Double,
+        completion: @escaping (Result<VasitaParseCekici, Error>) -> Void
+    ) {
+        var arac = VasitaParseCekici()
+        arac.Kategori = kategori.rawValue
+        arac.marka = marka.rawValue
+        arac.model = model
+        arac.yil = yil
+        arac.longituteHedef = Double(selectedPin?.coordinate.longitude ?? 0.0)
+        arac.latitudeHedef = Double(selectedPin?.coordinate.latitude ?? 0.0)
+        arac.longituteAnlik = longituteAnlık
+        arac.latitudeAnlik = latitudeAnlık
+        arac.kullanici = User.current
+        
+        arac.save { result in
+            switch result {
+            case .success(let savedCar):
+                print("Başarıyla kayıt edildi: \(savedCar)")
+                completion(.success(savedCar))
+            case .failure(let error):
+                print("Kayıt hatası: \(error.localizedDescription)")
+                completion(.failure(error))
+            }
+        }
+    }
 }
 extension CLLocationCoordinate2D: Equatable {
     public static func == (lhs: CLLocationCoordinate2D, rhs: CLLocationCoordinate2D) -> Bool {
@@ -156,6 +244,6 @@ extension CLLocationCoordinate2D: Equatable {
 }
 
 
-#Preview {
-    ScreenLocationForCekici()
-}
+//#Preview {
+//    ScreenLocationForCekici(kullanici: .constant(User(), kategori: <#Binding<AracTuru>#>, marka: <#Binding<OtomobilMarka>#>, model: <#Binding<String>#>, yil: <#Binding<String>#>, longitude: <#Binding<Double>#>, latitude: <#Binding<Double>#>)
+//}

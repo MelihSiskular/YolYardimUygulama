@@ -47,12 +47,14 @@ struct ScreenPanelForUsers: View {
                     .tint(.orange)
                 }
             }
+            .navigationBarBackButtonHidden()
             .navigationDestination(isPresented: $isShowLastik) {
                 ScreenLastik()
             }
             .navigationDestination(isPresented: $isShowCekici) {
-                ScreenCekici(offer: Vasita(arac: .otomobil, yil: "2000"))
+                ScreenCekici()
             }
+            
         }
     }
 }

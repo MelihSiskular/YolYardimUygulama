@@ -72,7 +72,8 @@ struct ScreenUserMain: View {
                     }
                 .padding()
                  
-                }
+            }
+            .navigationBarBackButtonHidden()
    
             }.tint(.white)
         }

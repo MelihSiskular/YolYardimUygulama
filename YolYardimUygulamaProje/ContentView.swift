@@ -17,6 +17,7 @@ struct ContentView: View {
     @State private var isShowUserPanel = false
     @State private var isShowAdminPanel = false
 
+    @State private var showAlert = false
     
     var body: some View {
         NavigationStack {
@@ -68,7 +69,19 @@ struct ContentView: View {
                             
                             // GİRİŞ YAP Butonu
                             Button(action: {
-                                isShowUserPanel.toggle()
+                                
+                                loginUser(email: email, password: password) { result in
+                                    switch result {
+                                    case .success:
+                                        isShowUserPanel.toggle()
+                                        // Giriş başarılı → ekran geçişi, alert vs.
+                                        print("Giriş başarılı")
+                                    case .failure(let error):
+                                        // Alert göster veya hata mesajı
+                                        showAlert.toggle()
+                                        print("Giriş başarısız: \(error.localizedDescription)")
+                                    }
+                                }
                                 
                             }) {
                                 Text("GİRİŞ YAP")
@@ -81,6 +94,15 @@ struct ContentView: View {
                                     .shadow(color: .black.opacity(0.3), radius: 4, x: 2, y: 2)
                                 
                             }
+                            
+                        }
+                        .alert(isPresented: $showAlert) {
+                            Alert(
+                                title: Text("❌ İşlem Reddedildi")
+                                    .fontWeight(.bold),
+                                message: Text("Geçersiz Kullanıcı Adı Veya Parola"),
+                                dismissButton: .default(Text("Tamam").foregroundColor(.orange))
+                            )
                         }
                         .padding()
                         .tag(0)
@@ -159,12 +181,34 @@ struct ContentView: View {
             .navigationDestination(isPresented: $isShowAdminPanel) {
                 ScreenPanelForAdmins()
             }
+            .hideKeyboardOnTap()
+
            
         }
         .tint(.white)
     }
+        
+    func loginUser(email: String, password: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        User.login(username: email, password: password) { result in
+            switch result {
+            case .success(let user):
+                if user.isAdmin == false {
+                    // Bu kullanıcı admin, kullanıcı paneline alınmasın
+                    completion(.success(()))
+                } else {
+                    // Normal kullanıcı
+                    completion(.failure("error" as! Error))
+                }
+              
+            case .failure(let error):
+                print("❌ Giriş hatası: \(error.localizedDescription)")
+                completion(.failure(error))
+            }
+        }
+    }
 }
-    
+
+
 
 
 #Preview {
