@@ -3,7 +3,7 @@ import Foundation
 class Motor:Vasita{
     var motormarka: MotorMarka
 
-    init(motormarka: MotorMarka,arac: AracTuru, yil:Int){
+    init(motormarka: MotorMarka,arac: AracTuru, yil:String){
         self.motormarka
 
         super.init(arac: arac, yil:yil)
