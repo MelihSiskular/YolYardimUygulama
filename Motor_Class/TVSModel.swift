@@ -1,7 +1,7 @@
 import Foundation
 
 class TVS:Motor{
-    var tvsmodel:tvsModel
+    var tvsmodel:TVSModel
 
     init(tvsmodel:TVSModel,yil:String){
         self.tvsmodel = tvsmodel
