@@ -1,11 +1,13 @@
 import SwiftUI
 import MapKit
 import CoreLocation
+import ParseSwift
 
 struct PinModel: Identifiable {
     let id = UUID()
     let coordinate: CLLocationCoordinate2D
 }
+
 
 
 
@@ -15,7 +17,9 @@ struct ScreenLocationForCekici: View {
  
     @Binding var kullanici: User?
     @Binding var kategori: AracTuru?
-    @Binding var marka: OtomobilMarka?
+    @Binding var markaOtomobil: OtomobilMarka?
+    @Binding var markaSuv: SUVMarka?
+    @Binding var markaMotor: MotorMarka?
     @Binding var model: Any?
 
     @Binding var secilenModel: String
@@ -28,7 +32,7 @@ struct ScreenLocationForCekici: View {
 
     @State var offer : Vasita = Vasita(arac: .otomobil, yil: "0")
 
-
+    @State private var user = User.current
 
     @StateObject private var locationManager = LocationManager()
     
@@ -45,20 +49,20 @@ struct ScreenLocationForCekici: View {
             ZStack {
                 ScreenBackground()
                 
-                VStack(spacing: 16) {
+                VStack(spacing: 12) {
                     Text("Hedef Konum")
                         .font(.largeTitle.bold())
                         .foregroundColor(.white)
                         .padding(10)
                         .lineLimit(1)
                     HStack {
-                        Text("Gidilecek Konum Bilgisi Basılı Tutarak Seçin...")
-                            .font(.headline.italic())
+                        Text("Gidilecek Konum Bilgisini Basılı Tutarak Seçin...")
+                            .font(.subheadline.italic())
                             .foregroundColor(.white)
                             .lineLimit(1)
-                        Spacer()
-                    }
-                    .padding()
+                        
+                    }.padding()
+                   
                     
                     GeometryReader { geometry in
                         Map(coordinateRegion: $region, annotationItems: selectedPin.map { [$0] } ?? []) { pin in
@@ -93,21 +97,20 @@ struct ScreenLocationForCekici: View {
                         .cornerRadius(10)
                         .padding(.horizontal)
                     
+                    //MARK: Kaydetme İŞlemi
                     Button(action: {
                         isShowScreenOnaylandi.toggle()
-                        print("Devam Et tıklandı, konum: \(selectedPin?.coordinate.latitude ?? 0), \(selectedPin?.coordinate.longitude ?? 0)")
+                        print("Devam Et tıklandı, konum: \(selectedPin?.coordinate.latitude ?? 0), \(selectedPin?.coordinate.longitude ?? 0)") //Debug için
                         switch kategori {
                         case .otomobil:
-                            offer = Otomobil(otomarka: marka!, arac: kategori!, yil: yil!, otomodel: model!)
-                            
+                            offer = Otomobil(otomarka: markaOtomobil!, arac: kategori!, yil: yil!, otomodel: model!)
                         case .motor:
-                            offer = Otomobil(otomarka: marka!, arac: kategori!, yil: yil!, otomodel: model!)
+                            offer = Motor(motormarka: markaMotor!, arac: kategori!, yil: yil!)
                         case .suv:
-                            offer = Otomobil(otomarka: marka!, arac: kategori!, yil: yil!, otomodel: model!)
+                            offer = SUV(suvmarka: markaSuv!, arac: kategori!, yil: yil!)
                         case nil:
-                            print("unsucces")
+                            print("--unsucces--")
                         }
-                        
                         switch offer {
                         case let oto as Otomobil:
                             print(oto.arac,oto.otomarka,oto.otomodel,oto.yil)
@@ -124,13 +127,40 @@ struct ScreenLocationForCekici: View {
                                     print(error.localizedDescription)
                                 case .success(_):
                                     print("succes")
-                                    
                                 }
                             }
-                        case let motor as Otomobil:
-                            print("")
-                        case let suv as Otomobil:
-                            print("")
+                        case let motor as Motor:
+                            kaydetMotor(kategori: motor.arac,
+                                   marka: motor.motormarka,
+                                   model: secilenModel,
+                                   yil: motor.yil,
+                                   longituteHedef: longitudeHedef,
+                                   latitudeHedef: latitudeHedef,
+                                   longituteAnlık: longitudeAnlık,
+                                   latitudeAnlık: latitudeAnlık) { result in
+                                switch result {
+                                case .failure(let error):
+                                    print(error.localizedDescription)
+                                case .success(_):
+                                    print("succes")
+                                }
+                            }
+                        case let suv as SUV:
+                            kaydetSuv(kategori: suv.arac,
+                                      marka: suv.suvmarka,
+                                   model: secilenModel,
+                                   yil: suv.yil,
+                                   longituteHedef: longitudeHedef,
+                                   latitudeHedef: latitudeHedef,
+                                   longituteAnlık: longitudeAnlık,
+                                   latitudeAnlık: latitudeAnlık) { result in
+                                switch result {
+                                case .failure(let error):
+                                    print(error.localizedDescription)
+                                case .success(_):
+                                    print("succes")
+                                }
+                            }
                         default:
                             print("unsucces")
                         }
@@ -165,7 +195,7 @@ struct ScreenLocationForCekici: View {
                     konumAyarlandi = true
                 }
             }
-            .onChange(of: locationManager.currentLocation) { loc in
+            .onChange(of: locationManager.currentLocation) { _,loc in
                 if let loc = loc, !konumAyarlandi {
                     region.center = loc
                     selectedPin = PinModel(coordinate: loc)
@@ -176,6 +206,9 @@ struct ScreenLocationForCekici: View {
         }
     }
     
+
+    
+
     func convertPointToCoordinate(point: CGPoint, in region: MKCoordinateRegion, viewSize: CGSize) -> CLLocationCoordinate2D {
         let xPercent = point.x / viewSize.width
         let yPercent = point.y / viewSize.height
@@ -223,7 +256,78 @@ struct ScreenLocationForCekici: View {
         arac.latitudeHedef = Double(selectedPin?.coordinate.latitude ?? 0.0)
         arac.longituteAnlik = longituteAnlık
         arac.latitudeAnlik = latitudeAnlık
+        arac.fullName = User.current?.fullName
         arac.kullanici = User.current
+        arac.save { result in
+            switch result {
+            case .success(let savedCar):
+                print("Başarıyla kayıt edildi: \(savedCar)")
+                completion(.success(savedCar))
+            case .failure(let error):
+                print("Kayıt hatası: \(error.localizedDescription)")
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    func kaydetMotor(
+        kategori: AracTuru,
+        marka: MotorMarka,
+        model: String,
+        yil: String,
+        longituteHedef: Double,
+        latitudeHedef: Double,
+        longituteAnlık: Double,
+        latitudeAnlık: Double,
+        completion: @escaping (Result<VasitaParseCekici, Error>) -> Void
+    ) {
+        var arac = VasitaParseCekici()
+        arac.Kategori = kategori.rawValue
+        arac.marka = marka.rawValue
+        arac.model = model
+        arac.yil = yil
+        arac.longituteHedef = Double(selectedPin?.coordinate.longitude ?? 0.0)
+        arac.latitudeHedef = Double(selectedPin?.coordinate.latitude ?? 0.0)
+        arac.longituteAnlik = longituteAnlık
+        arac.latitudeAnlik = latitudeAnlık
+        arac.kullanici = User.current
+        arac.fullName = User.current?.fullName
+
+        
+        arac.save { result in
+            switch result {
+            case .success(let savedCar):
+                print("Başarıyla kayıt edildi: \(savedCar)")
+                completion(.success(savedCar))
+            case .failure(let error):
+                print("Kayıt hatası: \(error.localizedDescription)")
+                completion(.failure(error))
+            }
+        }
+    }
+    func kaydetSuv(
+        kategori: AracTuru,
+        marka: SUVMarka,
+        model: String,
+        yil: String,
+        longituteHedef: Double,
+        latitudeHedef: Double,
+        longituteAnlık: Double,
+        latitudeAnlık: Double,
+        completion: @escaping (Result<VasitaParseCekici, Error>) -> Void
+    ) {
+        var arac = VasitaParseCekici()
+        arac.Kategori = kategori.rawValue
+        arac.marka = marka.rawValue
+        arac.model = model
+        arac.yil = yil
+        arac.longituteHedef = Double(selectedPin?.coordinate.longitude ?? 0.0)
+        arac.latitudeHedef = Double(selectedPin?.coordinate.latitude ?? 0.0)
+        arac.longituteAnlik = longituteAnlık
+        arac.latitudeAnlik = latitudeAnlık
+        arac.kullanici = User.current
+        arac.fullName = User.current?.fullName
+
         
         arac.save { result in
             switch result {

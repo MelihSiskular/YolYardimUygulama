@@ -31,10 +31,14 @@ struct User:ParseUser {
     
     var ACL: ParseSwift.ParseACL?
     
+    var detail : String?
     var fullName: String?
     var phone: String?
     var isAdmin: Bool?
     
+    var latitudeAdmin : Double?
+    var longituteAdmin : Double?
+
 }
 
 struct VasitaParseCekici: ParseObject {
@@ -47,7 +51,8 @@ struct VasitaParseCekici: ParseObject {
     var ACL: ParseACL?
     
     // Araç bilgileri
-    var kullanici: User?     
+    var kullanici: User?
+    var fullName : String?
     var Kategori: String?
     var marka: String?
     var model: String?

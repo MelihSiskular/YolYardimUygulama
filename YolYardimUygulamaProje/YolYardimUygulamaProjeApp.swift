@@ -16,7 +16,7 @@ struct YolYardimUygulamaProjeApp: App {
             applicationId: "HafPWbmr2YBRnCyjajWEHAZoOFV3Vi1x24CL7bS9",
             clientKey: "fR7627EvTxwHfTcipYwMnq0M89JwYbSMKQxjvdTv",
             serverURL: URL(string: "https://parseapi.back4app.com")!
-            
+
         )
     }
     

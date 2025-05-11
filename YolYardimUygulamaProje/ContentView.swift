@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import ParseSwift
 
 struct ContentView: View {
     
@@ -22,6 +23,7 @@ struct ContentView: View {
     var body: some View {
         NavigationStack {
             ZStack{
+                
                 
                 ScreenBackground()
                 
@@ -74,6 +76,7 @@ struct ContentView: View {
                                     switch result {
                                     case .success:
                                         isShowUserPanel.toggle()
+                                    
                                         // Giriş başarılı → ekran geçişi, alert vs.
                                         print("Giriş başarılı")
                                     case .failure(let error):
@@ -117,20 +120,43 @@ struct ContentView: View {
                                 .font(.subheadline)
                                 .foregroundColor(.white.opacity(0.7))
                             
-                            TextField("Admin E-posta", text: .constant(""))
+                            // E-posta TextField
+                            TextField("E-posta", text: $email)
                                 .padding()
-                                .background(Color.white.opacity(0.2))
-                                .cornerRadius(10)
+                                .background(Color.white.opacity(0.1))
                                 .foregroundColor(.white)
+                                .cornerRadius(10)
+                                .keyboardType(.emailAddress)
+                                .autocapitalization(.none)
+                                .disableAutocorrection(true)
                             
-                            SecureField("Parola", text: .constant(""))
+                            // Parola SecureField
+                            SecureField("Parola", text: $password)
                                 .padding()
-                                .background(Color.white.opacity(0.2))
-                                .cornerRadius(10)
+                                .background(Color.white.opacity(0.1))
                                 .foregroundColor(.white)
+                                .cornerRadius(10)
+                            
+                        
+                            
+                    
                             
                             Button("GİRİŞ YAP") {
-                                isShowAdminPanel.toggle()
+                                
+                                loginAdmin(email: email, password: password) { result in
+                                    switch result {
+                                    case .success:
+                                        isShowAdminPanel.toggle()
+                                        
+                                        // Giriş başarılı → ekran geçişi, alert vs.
+                                        print("Giriş başarılı")
+                                    case .failure(let error):
+                                        // Alert göster veya hata mesajı
+                                        showAlert.toggle()
+                                        print("Giriş başarısız: \(error.localizedDescription)")
+                                    }
+                                }
+                               
                             }
                             .padding()
                             .frame(maxWidth: .infinity)
@@ -180,6 +206,7 @@ struct ContentView: View {
             }
             .navigationDestination(isPresented: $isShowAdminPanel) {
                 ScreenPanelForAdmins()
+                    .navigationBarBackButtonHidden()
             }
             .hideKeyboardOnTap()
 
@@ -197,7 +224,8 @@ struct ContentView: View {
                     completion(.success(()))
                 } else {
                     // Normal kullanıcı
-                    completion(.failure("error" as! Error))
+                
+                    showAlert.toggle()
                 }
               
             case .failure(let error):
@@ -206,6 +234,25 @@ struct ContentView: View {
             }
         }
     }
+    func loginAdmin(email: String, password: String, completion: @escaping (Result<Void, Error>) -> Void) {
+        User.login(username: email, password: password) { result in
+            switch result {
+            case .success(let user):
+                if user.isAdmin == true {
+                    // Bu kullanıcı admin, kullanıcı paneline alınsın
+                    completion(.success(()))
+                } else {
+                    // Normal kullanıcı
+                    showAlert.toggle()
+                }
+                
+            case .failure(let error):
+                print("❌ Giriş hatası: \(error.localizedDescription)")
+                completion(.failure(error))
+            }
+        }
+    }
+
 }
 
 

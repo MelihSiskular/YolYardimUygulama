@@ -6,8 +6,10 @@
 //
 
 import SwiftUI
+import ParseSwift
 
 struct ScreenPanelForAdmins: View {
+    @State private var cekiciListesi : [VasitaParseCekici] = []
     init() {
         
         UITabBar.appearance().barTintColor = UIColor.black
@@ -22,18 +24,32 @@ struct ScreenPanelForAdmins: View {
             VStack {
                 TabView(selection: $selectedScreen) {
                     
-                    ScreenUserProposals()
+                    ScreenMainForAdmins()
                         .tabItem {
                             Label("Ana Ekran", systemImage: "house")
                         }.tag(0)
-                        .badge(2)
-                    ScreenUserProposals()
+                        .badge(cekiciListesi.count)
+                    ScreenUserSettings()
                         .tabItem {
                             Label("Ayarlar", systemImage: "gear")
                         }.tag(1)
                     
                 }
                 .tint(.orange)
+            }
+        }
+        .onAppear {
+            fetchCekiciVerileri()
+        }
+    }
+    func fetchCekiciVerileri() {
+        let query = VasitaParseCekici.query()
+        query.find { result in
+            switch result {
+            case .success(let veriler):
+                self.cekiciListesi = veriler
+            case .failure(let error):
+                print("Veri çekme hatası: \(error.localizedDescription)")
             }
         }
     }

@@ -14,6 +14,7 @@ struct ScreenCekici: View {
     
     @State private var secilenMarkaOtomobil: OtomobilMarka? = nil
     @State private var secilenMarkaSuv : SUVMarka? = nil
+    @State private var secilenMarkaMotor : MotorMarka? = nil
     
     @State private var secilenModelAlfa: AlfaModel? = nil
     @State private var secilenModelAudi: AudiModel? = nil
@@ -78,6 +79,22 @@ struct ScreenCekici: View {
     @State private var secilenModelVolkswagenSuv: VolkswagenSUVModel? = nil
     @State private var secilenModelVolvoSuv: VolvoSUVModel? = nil
     @State private var secilenModelSuv: Any? = nil
+    @State private var secilenModelSuvDeneme: String = ""
+    
+    @State private var secilenModelArora: AroraModel? = nil
+    @State private var secilenModelBajaj: BajajModel? = nil
+    @State private var secilenModelCFmoto: CFmodel? = nil
+    @State private var secilenModelHondaMoto: HondaMotoModel? = nil
+    @State private var secilenModelKuba: KubaModel? = nil
+    @State private var secilenModelMondial: MondialModel? = nil
+    @State private var secilenModelRKS: RKSModel? = nil
+    @State private var secilenModelSYM: SYMModel? = nil
+    @State private var secilenModelTVS: TVSModel? = nil
+    @State private var secilenModelVespa: VespaModel? = nil
+    @State private var secilenModelYamaha: YamahaModel? = nil
+    @State private var secilenModelMotor: Any? = nil
+    @State private var secilenModelMotorDeneme: String = ""
+
 
     @State var secilenYil: String? = nil
 
@@ -390,7 +407,101 @@ struct ScreenCekici: View {
                         }
                         
                     case .motor:
-                        enumPicker("Marka", selection:  $secilenMarkaOtomobil)
+                        enumPicker("Marka", selection:  $secilenMarkaMotor)
+                        
+                        switch secilenMarkaMotor{
+                        case .Arora:
+                            enumPicker("Model", selection: $secilenModelArora)
+                                .onChange(of: secilenModelArora) { _, new in
+                                    secilenModelMotor = new
+                                    if let model = new{
+                                        secilenModelMotorDeneme = model.rawValue
+                                    }
+                                }
+                        case .Kuba:
+                            enumPicker("Model", selection: $secilenModelKuba)
+                                .onChange(of: secilenModelKuba) { _, new in
+                                    secilenModelMotor = new
+                                    if let model = new{
+                                        secilenModelMotorDeneme = model.rawValue
+                                    }
+                                }
+                        case .Bajaj:
+                            enumPicker("Model", selection: $secilenModelBajaj)
+                                .onChange(of: secilenModelBajaj) { _, new in
+                                    secilenModelMotor = new
+                                    if let model = new{
+                                        secilenModelMotorDeneme = model.rawValue
+                                    }
+                                }
+                        case .CFmoto:
+                            enumPicker("Model", selection: $secilenModelCFmoto)
+                                .onChange(of: secilenModelCFmoto) { _, new in
+                                    secilenModelMotor = new
+                                    if let model = new {
+                                        secilenModelMotorDeneme = model.rawValue
+                                    }
+                                }
+                        case .Hondamoto:
+                            enumPicker("Model", selection: $secilenModelHondaMoto)
+                                .onChange(of: secilenModelHondaMoto) { _, new in
+                                    secilenModelMotor = new
+                                    if let model = new{
+                                        secilenModelMotorDeneme = model.rawValue
+                                    }
+                                }
+                        case .Mondial:
+                            enumPicker("Model", selection: $secilenModelMondial)
+                                .onChange(of: secilenModelMondial){ _, new in
+                                    secilenModelMotor = new
+                                    if let model = new{
+                                        secilenModelMotorDeneme = model.rawValue
+                                    }
+                                }
+                        case .RKS:
+                            enumPicker("Model", selection: $secilenModelRKS)
+                                .onChange(of: secilenModelRKS) { _, new in
+                                    secilenModelMotor = new
+                                    if let model = new{
+                                        secilenModelMotorDeneme = model.rawValue
+                                    }
+                                }
+                        case .SYM:
+                            enumPicker("Model", selection: $secilenModelSYM)
+                                .onChange(of: secilenModelSYM) { _, new in
+                                    secilenModelMotor = new
+                                    if let model = new{
+                                        secilenModelMotorDeneme = model.rawValue
+                                    }
+                                }
+                        case .TVS:
+                            enumPicker("Model", selection: $secilenModelTVS)
+                                .onChange(of: secilenModelTVS) { _, new in
+                                    secilenModelMotor = new
+                                    if let model = new {
+                                        secilenModelMotorDeneme = model.rawValue
+                                    }
+                                }
+                        case .Vespa:
+                            enumPicker("Model", selection: $secilenModelVespa)
+                                .onChange(of: secilenModelVespa) { _, new in
+                                    secilenModelMotor = new
+                                    if let model = new {
+                                        secilenModelMotorDeneme = model.rawValue
+                                    }
+                                }
+                        case .Yamaha:
+                            enumPicker("Model", selection: $secilenModelYamaha)
+                                .onChange(of: secilenModelYamaha) { _, new in
+                                    secilenModelMotor = new
+                                    if let model = new{
+                                        secilenModelMotorDeneme = model.rawValue
+                                    }
+                                }
+                        case nil:
+                            EmptyView()
+                        }
+                        
                         
                     case .suv:
                         enumPicker("Marka", selection: $secilenMarkaSuv)
@@ -401,142 +512,226 @@ struct ScreenCekici: View {
                             enumPicker("Model", selection: $secilenModelAudiSuv)
                                 .onChange(of: secilenModelAudiSuv) { _, new in
                                     secilenModelSuv = new
+                                    if let model = new {
+                                        secilenModelSuvDeneme = model.rawValue
+                                    }
                                 }
                         case .BMW_suv:
                             enumPicker("Model", selection: $secilenModelBmwSuv)
                                 .onChange(of: secilenModelBmwSuv) { _, new in
                                     secilenModelSuv = new
+                                    if let model = new {
+                                        secilenModelSuvDeneme = model.rawValue
+                                    }
                                 }
                         case .Chery_suv:
                             enumPicker("Model", selection: $secilenModelCherrySuv)
                                 .onChange(of: secilenModelCherrySuv) { _, new in
                                     secilenModelSuv = new
+                                    if let model = new {
+                                        secilenModelSuvDeneme = model.rawValue
+                                    }
                                 }
                         case .Chevrolet_suv:
                             enumPicker("Model", selection: $secilenModelCHevroletSuv)
                                 .onChange(of: secilenModelCHevroletSuv) { _, new in
                                     secilenModelSuv = new
+                                    if let model = new {
+                                        secilenModelSuvDeneme = model.rawValue
+                                    }
                                 }
                         case .Citroen_suv:
                             enumPicker("Model", selection: $secilenModelCitoenSuv)
                                 .onChange(of: secilenModelCitoenSuv) { _, new in
                                     secilenModelSuv = new
+                                    if let model = new {
+                                        secilenModelSuvDeneme = model.rawValue
+                                    }
                                 }
                             
                         case .Cupra_suv:
                             enumPicker("Model", selection: $secilenModelCupraSuv)
                                 .onChange(of: secilenModelCupraSuv) { _, new in
                                     secilenModelSuv = new
+                                    if let model = new {
+                                        secilenModelSuvDeneme = model.rawValue
+                                    }
                                 }
                         case .some(.Dacia_suv):
                             enumPicker("Model", selection: $secilenModelDaciaSuv)
                                 .onChange(of: secilenModelDaciaSuv) { _, new in
                                     secilenModelSuv = new
+                                    if let model = new {
+                                        secilenModelSuvDeneme = model.rawValue
+                                    }
                                 }
                         case .some(.Fiat_suv):
                             enumPicker("Model", selection: $secilenModelFiatSuv)
                                 .onChange(of: secilenModelFiatSuv) { _, new in
                                     secilenModelSuv = new
+                                    if let model = new {
+                                        secilenModelSuvDeneme = model.rawValue
+                                    }
                                 }
                         case .some(.Ford_suv):
                             enumPicker("Model", selection: $secilenModelFordSuv)
                                 .onChange(of: secilenModelFordSuv) { _, new in
                                     secilenModelSuv = new
+                                    if let model = new {
+                                        secilenModelSuvDeneme = model.rawValue
+                                    }
                                 }
                         case .some(.Honda_suv):
                             enumPicker("Model", selection: $secilenModelHondaSuv)
                                 .onChange(of: secilenModelHondaSuv) { _, new in
                                     secilenModelSuv = new
+                                    if let model = new {
+                                        secilenModelSuvDeneme = model.rawValue
+                                    }
                                 }
                         case .some(.Hyundai_suv):
                             enumPicker("Model", selection: $secilenModelHyındaiSuv)
                                 .onChange(of: secilenModelHyındaiSuv) { _, new in
                                     secilenModelSuv = new
+                                    if let model = new {
+                                        secilenModelSuvDeneme = model.rawValue
+                                    }
                                 }
                         case .some(.Jeep_suv):
                             enumPicker("Model", selection: $secilenModelJeepSuv)
                                 .onChange(of: secilenModelJeepSuv) { _, new in
                                     secilenModelSuv = new
+                                    if let model = new {
+                                        secilenModelSuvDeneme = model.rawValue
+                                    }
                                 }
                         case .some(.Kia_suv):
                             enumPicker("Model", selection: $secilenModelKiaSuv)
                                 .onChange(of: secilenModelKiaSuv) { _, new in
                                     secilenModelSuv = new
+                                    if let model = new {
+                                        secilenModelSuvDeneme = model.rawValue
+                                    }
                                 }
                         case .some(.Land_Rover_suv):
                             enumPicker("Model", selection: $secilenModelLandRoverSuv)
                                 .onChange(of: secilenModelLandRoverSuv) { _, new in
                                     secilenModelSuv = new
+                                    if let model = new {
+                                        secilenModelSuvDeneme = model.rawValue
+                                    }
                                 }
                         case .some(.Mercedes_Benz_suv):
                             enumPicker("Model", selection: $secilenModelMercedesSuv)
                                 .onChange(of: secilenModelMercedesSuv) { _, new in
                                     secilenModelSuv = new
+                                    if let model = new {
+                                        secilenModelSuvDeneme = model.rawValue
+                                    }
                                 }
                         case .some(.Mitsubishi_suv):
                             enumPicker("Model", selection: $secilenModelMitsubishiSuv)
                                 .onChange(of: secilenModelMitsubishiSuv) { _, new in
                                     secilenModelSuv = new
+                                    if let model = new {
+                                        secilenModelSuvDeneme = model.rawValue
+                                    }
                                 }
                         case .some(.Nissan_suv):
                             enumPicker("Model", selection: $secilenModelNissanSuv)
                                 .onChange(of: secilenModelNissanSuv) { _, new in
                                     secilenModelSuv = new
+                                    if let model = new {
+                                        secilenModelSuvDeneme = model.rawValue
+                                    }
                                 }
                         case .some(.Opel_suv):
                             enumPicker("Model", selection: $secilenModelOpelSuv)
                                 .onChange(of: secilenModelOpelSuv) { _, new in
                                     secilenModelSuv = new
+                                    if let model = new {
+                                        secilenModelSuvDeneme = model.rawValue
+                                    }
                                 }
                         case .some(.Peugeot_suv):
                             enumPicker("Model", selection: $secilenModelPeugotSuv)
                                 .onChange(of: secilenModelPeugotSuv) { _, new in
                                     secilenModelSuv = new
+                                    if let model = new {
+                                        secilenModelSuvDeneme = model.rawValue
+                                    }
                                 }
                         case .some(.Porsche_suv):
                             enumPicker("Model", selection: $secilenModelPorsheSuv)
                                 .onChange(of: secilenModelPorsheSuv) { _, new in
                                     secilenModelSuv = new
+                                    if let model = new {
+                                        secilenModelSuvDeneme = model.rawValue
+                                    }
                                 }
                         case .some(.Renault_suv):
                             enumPicker("Model", selection: $secilenModelRenaultSuv)
                                 .onChange(of: secilenModelRenaultSuv) { _, new in
                                     secilenModelSuv = new
+                                    if let model = new {
+                                        secilenModelSuvDeneme = model.rawValue
+                                    }
                                 }
                         case .some(.Seat_suv):
                             enumPicker("Model", selection: $secilenModelSeatSuv)
                                 .onChange(of: secilenModelSeatSuv) { _, new in
                                     secilenModelSuv = new
+                                    if let model = new {
+                                        secilenModelSuvDeneme = model.rawValue
+                                    }
                                 }
                         case .some(.Skoda_suv):
                             enumPicker("Model", selection: $secilenModelSkodaSuv)
                                 .onChange(of: secilenModelSkodaSuv) { _, new in
                                     secilenModelSuv = new
+                                    if let model = new {
+                                        secilenModelSuvDeneme = model.rawValue
+                                    }
                                 }
                         case .some(.Suzuki_suv):
                             enumPicker("Model", selection: $secilenModelSuzukiSuv)
                                 .onChange(of: secilenModelSuzukiSuv) { _, new in
                                     secilenModelSuv = new
+                                    if let model = new {
+                                        secilenModelSuvDeneme = model.rawValue
+                                    }
                                 }
                         case .some(.Togg_suv):
                             enumPicker("Model", selection: $secilenModelToggSuv)
                                 .onChange(of: secilenModelToggSuv) { _, new in
                                     secilenModelSuv = new
+                                    if let model = new {
+                                        secilenModelSuvDeneme = model.rawValue
+                                    }
                                 }
                         case .some(.Toyota_suv):
                             enumPicker("Model", selection: $secilenModelToyotaSuv)
                                 .onChange(of: secilenModelToyotaSuv) { _, new in
                                     secilenModelSuv = new
+                                    if let model = new {
+                                        secilenModelSuvDeneme = model.rawValue
+                                    }
                                 }
                         case .some(.Volkswagen_suv):
                             enumPicker("Model", selection: $secilenModelVolkswagenSuv)
                                 .onChange(of: secilenModelVolkswagenSuv) { _, new in
                                     secilenModelSuv = new
+                                    if let model = new {
+                                        secilenModelSuvDeneme = model.rawValue
+                                    }
                                 }
                         case .some(.Volvo_suv):
                             enumPicker("Model", selection: $secilenModelVolvoSuv)
                                 .onChange(of: secilenModelVolvoSuv) { _, new in
                                     secilenModelSuv = new
+                                    if let model = new {
+                                        secilenModelSuvDeneme = model.rawValue
+                                    }
                                 }
                         case nil:
                             EmptyView()
@@ -551,7 +746,7 @@ struct ScreenCekici: View {
                     }
                     
                     
-                    if (secilenMarkaOtomobil == nil && secilenMarkaSuv == nil) {
+                    if (secilenMarkaOtomobil == nil && secilenMarkaSuv == nil && secilenMarkaMotor == nil) {
                         enumPicker("Model", selection: $secilenModelVolvoSuv)
                             .disabled(true)
                            
@@ -565,7 +760,7 @@ struct ScreenCekici: View {
                     
                     
                     customPicker("Yıl", selection: $secilenYil, options: yillar.map{"\($0)"})
-                        .disabled(!isModelSelected(for: secilenMarkaOtomobil) && !isSuvModelSelected(for: secilenMarkaSuv))
+                        .disabled(!isModelSelected(for: secilenMarkaOtomobil) && !isSuvModelSelected(for: secilenMarkaSuv) && !isMotoModelSelected(for: secilenMarkaMotor))
                         .tint(.white)
                     
                     
@@ -611,15 +806,42 @@ struct ScreenCekici: View {
                         
                     }
                     .navigationDestination(isPresented: $isShowLocationScreen) {
-                        //MARK: SADECE OTOMOBİL GEÇİŞİ
-                        ScreenLocationForCekici(kullanici: $user,
-                                                kategori: $secilenKategori,
-                                                marka: $secilenMarkaOtomobil,
-                                                model: $secilenModelOtomobil,
-                                                secilenModel: $secilenModelOtomobilDeneme,
-                                                yil: $secilenYil,
-                                                longitudeAnlık: $longitudeAnlık,
-                                                latitudeAnlık: $latitudeAnlık)
+                        //MARK: KATEGORİYE GÖRE LOCATION EKRANINA GEÇİŞ
+                        if(secilenMarkaOtomobil != nil) {
+                            ScreenLocationForCekici(kullanici: $user,
+                                                    kategori: $secilenKategori,
+                                                    markaOtomobil: $secilenMarkaOtomobil,
+                                                    markaSuv: $secilenMarkaSuv,
+                                                    markaMotor: $secilenMarkaMotor,
+                                                    model: $secilenModelOtomobil,
+                                                    secilenModel: $secilenModelOtomobilDeneme,
+                                                    yil: $secilenYil,
+                                                    longitudeAnlık: $longitudeAnlık,
+                                                    latitudeAnlık: $latitudeAnlık)
+                        }else if (secilenMarkaSuv != nil) {
+                            ScreenLocationForCekici(kullanici: $user,
+                                                    kategori: $secilenKategori,
+                                                    markaOtomobil: $secilenMarkaOtomobil,
+                                                    markaSuv: $secilenMarkaSuv,
+                                                    markaMotor: $secilenMarkaMotor,
+                                                    model: $secilenModelSuv,
+                                                    secilenModel: $secilenModelSuvDeneme,
+                                                    yil: $secilenYil,
+                                                    longitudeAnlık: $longitudeAnlık,
+                                                    latitudeAnlık: $latitudeAnlık)
+                        }else if (secilenMarkaMotor != nil) {
+                            ScreenLocationForCekici(kullanici: $user,
+                                                    kategori: $secilenKategori,
+                                                    markaOtomobil: $secilenMarkaOtomobil,
+                                                    markaSuv: $secilenMarkaSuv,
+                                                    markaMotor: $secilenMarkaMotor,
+                                                    model: $secilenModelMotor,
+                                                    secilenModel: $secilenModelMotorDeneme,
+                                                    yil: $secilenYil,
+                                                    longitudeAnlık: $longitudeAnlık,
+                                                    latitudeAnlık: $latitudeAnlık)
+                        }
+                       
                         
                     }
                     .disabled( // Buton devre dışı mı?
@@ -715,7 +937,39 @@ struct ScreenCekici: View {
         case nil: return false
         }
     }
-    
+    func isMotoModelSelected(for marka: MotorMarka?) -> Bool {
+        switch marka {
+        case .Arora: return secilenModelArora != nil
+        case .Bajaj: return secilenModelBajaj != nil
+        case .CFmoto: return secilenModelCFmoto != nil
+        case .Hondamoto: return secilenModelHondaMoto != nil
+        case .Kuba: return secilenModelKuba != nil
+        case .Mondial: return secilenModelMondial != nil
+        case .RKS: return secilenModelRKS != nil
+        case .SYM: return secilenModelSYM != nil
+        case .TVS: return secilenModelTVS != nil
+        case .Vespa: return secilenModelVespa != nil
+        case .Yamaha: return secilenModelYamaha != nil
+        case nil: return false
+        }
+    }
+    func deleteModelsMoto() {
+        secilenModelMotor = nil
+        secilenModelMotor = nil
+        secilenModelArora = nil
+        secilenModelBajaj = nil
+        secilenModelCFmoto = nil
+        secilenModelHondaMoto = nil
+        secilenModelKuba = nil
+        secilenModelMondial = nil
+        secilenModelRKS = nil
+        secilenModelSYM = nil
+        secilenModelTVS = nil
+        secilenModelVespa = nil
+        secilenModelYamaha = nil
+        secilenYil = nil
+    }
+
     func deleteModelsSuv() {
         secilenMarkaSuv = nil
         secilenModelSuv = nil

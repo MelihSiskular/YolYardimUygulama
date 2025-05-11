@@ -19,28 +19,29 @@ struct ScreenRegister: View {
     @State private var showAlert = false
     @State private var isSuccess = false // true: onaylandı, false: onaylanmadı
 
-    
+    @State private var secilenRolAdmin = "Çekici"
     @State private var secilenRol = "Kullanıcı"
     let roller = ["Kullanıcı", "Yönetici"]
+    let rollerAdmin = ["Çekici","Lastik"]
     
     var body: some View {
         ZStack {
             
             ScreenBackground()
             
-            VStack(spacing: 20) {
+            VStack(spacing: 16) {
                 // Başlık
                 Text("Hesap Oluştur")
                     .font(.largeTitle)
                     .fontWeight(.bold)
                     .foregroundColor(.white)
                     .shadow(color: .black.opacity(0.4), radius: 4, x: 2, y: 2)
-                    .padding(.bottom, 10)
+                    .padding(.bottom, 6)
                 
                 
                 
                 // Roller Arası Seçim
-                VStack(alignment: .center, spacing: 0) {
+                VStack(alignment: .center, spacing: 8) {
                     
                     Text("Hesap Türü")
                         .foregroundColor(.white.opacity(0.8))
@@ -52,11 +53,32 @@ struct ScreenRegister: View {
                         }
                     }
                     .pickerStyle(SegmentedPickerStyle())
-                    .padding()
                     .onChange(of:secilenRol) { _, _ in
-                        isAdmin.toggle()
+                        withAnimation {
+                            if isAdmin {
+                                isAdmin = false
+                            }else{
+                                isAdmin = true
+                            }
+                            
+                        }
+                       
+                       
                     }
-                }
+                    Picker("Rol Seç", selection: $secilenRolAdmin) {
+                        ForEach(rollerAdmin, id: \.self) { rol in
+                            Text(rol)
+                                .foregroundColor(.white)
+                        }
+                    }
+                    .pickerStyle(SegmentedPickerStyle())
+                    .offset(x: isAdmin ? 0 : -600)
+                    .onChange(of:secilenRolAdmin) { _, _ in
+                       
+                    }
+
+                } .padding()
+                
            
                 
                 // E-Posta
@@ -84,7 +106,7 @@ struct ScreenRegister: View {
                             switch result {
                             case .success:
                                 print("Başarıyla çıkış yapıldı.")
-                                registerUser(email: email, password: sifre, fullName: adSoyad, phone: numara, isAdmin: isAdmin) { result in
+                                registerUser(email: email, password: sifre, fullName: adSoyad, phone: numara, isAdmin: isAdmin,detay: secilenRolAdmin) { result in
                                     switch result {
                                     case .success:
                                         isSuccess = true
@@ -92,11 +114,17 @@ struct ScreenRegister: View {
                                         sifre = ""
                                         adSoyad = ""
                                         numara = ""
-                                        isAdmin = false
+                                        secilenRolAdmin = "Çekici"
+                                        secilenRol = "Kullanıcı"
+                                        showAlert.toggle()
+                                        print("XXXXXXXXXX")
                                         break
                                     case.failure:
                                         isSuccess = false
                                         print("HATA")
+                                        print("XXXXXXXXXX")
+
+                                        showAlert.toggle()
                                     }
                                    
                                     
@@ -105,8 +133,9 @@ struct ScreenRegister: View {
                                 print("Çıkış hatası: \(error.localizedDescription)")
                             }
                         }
+                        
                     } else {
-                        registerUser(email: email, password: sifre, fullName: adSoyad, phone: numara, isAdmin: isAdmin) { result in
+                        registerUser(email: email, password: sifre, fullName: adSoyad, phone: numara, isAdmin: isAdmin,detay: secilenRolAdmin) { result in
                             switch result {
                             case .success:
                                 isSuccess = true
@@ -114,17 +143,24 @@ struct ScreenRegister: View {
                                 sifre = ""
                                 adSoyad = ""
                                 numara = ""
-                                isAdmin = false
-                                showAlert = true
+                                print("XXXXXXXXXX")
+                                secilenRol = "Kullanıcı"
+                                secilenRolAdmin = "Çekici"
+                                showAlert.toggle()
                                 break
                             case.failure:
                                 isSuccess = false
+                                print("XXXXXXXXXX")
                                 print("HATA")
+                                showAlert.toggle()
                             }
                             
                         }
+                        
+
                     }
-                    showAlert.toggle()
+                   
+                   
 
                 
                 }) {
@@ -152,13 +188,21 @@ struct ScreenRegister: View {
         .hideKeyboardOnTap()
     }
     
-    func registerUser(email: String, password: String, fullName: String, phone: String, isAdmin: Bool, completion: @escaping (Result<Void, Error>) -> Void) {
+    
+    func registerUser(email: String, password: String, fullName: String, phone: String, isAdmin: Bool,detay:String, completion: @escaping (Result<Void, Error>) -> Void) {
         var user = User()
         user.username = email
         user.password = password
         user.email = email
         
         // Ekstra alanlar
+        if isAdmin {
+            user.detail = detay
+        }else {
+            user.detail = ""
+        }
+        user.latitudeAdmin = 0.0
+        user.longituteAdmin = 0.0
         user.fullName = fullName
         user.phone = phone
         user.isAdmin = isAdmin
