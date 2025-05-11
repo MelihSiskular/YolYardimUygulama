@@ -91,9 +91,19 @@ struct ScreenMainForAdmins: View {
                       
                         
                         Button(action: {
-                            // Buraya onay işlemini yazabilirsin
-                            print("Onaylandı: \(item.objectId ?? "")")
-                            
+                            if let admin = User.current {
+                                onayla(cekici: item, admin: admin) { result in
+                                    switch result {
+                                    case .success:
+                                        fetchCekiciVerileri()
+                                        print("Onaylama başarılı")
+                                    case .failure(let error):
+                                        print("Onaylama hatası: \(error.localizedDescription)")
+                                    }
+                                }
+                            } else {
+                                print("Giriş yapan admin bulunamadı.")
+                            }
                         }) {
                             Label("Onayla", systemImage: "checkmark.seal.fill")
                                 .font(.subheadline.bold())
@@ -134,6 +144,42 @@ struct ScreenMainForAdmins: View {
         
     
     }
+    func onayla(cekici: VasitaParseCekici, admin: User, completion: @escaping (Result<Void, Error>) -> Void) {
+        var onayli = OnayliVasita()
+        
+        onayli.emailKullanici = cekici.emailKullanici
+        onayli.kullanici = cekici.kullanici
+        onayli.onaylayanAdmin = admin
+        onayli.nameAdmin = admin.fullName
+        onayli.phoneAdmin = admin.phone
+        onayli.longituteAdmin = admin.longituteAdmin
+        onayli.latitudeAdmin = admin.latitudeAdmin
+        onayli.longituteAnlik = cekici.longituteAnlik
+        onayli.latitudeAnlik = cekici.latitudeAnlik
+        onayli.longituteHedef = cekici.longituteHedef
+        onayli.latitudeHedef = cekici.latitudeHedef
+        
+        onayli.save { result in
+            switch result {
+            case .success:
+                print("✅ Onaylı vasıta başarıyla kaydedildi.")
+                completion(.success(()))
+                cekici.delete { result in
+                    switch result {
+                    case .success:
+                        print("Eski veri silindi")
+                    case .failure(let error):
+                        print("Silme hatası: \(error.localizedDescription)")
+                    }
+                }
+            case .failure(let error):
+                print("❌ Onaylama hatası: \(error.localizedDescription)")
+                completion(.failure(error))
+            }
+        }
+    }
+
+    
     func fetchCekiciVerileri() {
         let query = VasitaParseCekici.query().include("kullanici")
         query.find { result in

@@ -258,6 +258,7 @@ struct ScreenLocationForCekici: View {
         arac.latitudeAnlik = latitudeAnlık
         arac.fullName = User.current?.fullName
         arac.kullanici = User.current
+        arac.emailKullanici = User.current?.email
         arac.save { result in
             switch result {
             case .success(let savedCar):
@@ -292,6 +293,7 @@ struct ScreenLocationForCekici: View {
         arac.latitudeAnlik = latitudeAnlık
         arac.kullanici = User.current
         arac.fullName = User.current?.fullName
+        arac.emailKullanici = User.current?.email
 
         
         arac.save { result in
@@ -327,6 +329,7 @@ struct ScreenLocationForCekici: View {
         arac.latitudeAnlik = latitudeAnlık
         arac.kullanici = User.current
         arac.fullName = User.current?.fullName
+        arac.emailKullanici = User.current?.email
 
         
         arac.save { result in

@@ -52,6 +52,7 @@ struct VasitaParseCekici: ParseObject {
     
     // Araç bilgileri
     var kullanici: User?
+    var emailKullanici: String?
     var fullName : String?
     var Kategori: String?
     var marka: String?
@@ -62,6 +63,31 @@ struct VasitaParseCekici: ParseObject {
     var longituteAnlik: Double?
     var latitudeAnlik: Double?
 }
+
+struct OnayliVasita: ParseObject {
+    // Gerekli Parse alanları
+    var objectId: String?
+    var createdAt: Date?
+    var updatedAt: Date?
+    var ACL: ParseACL?
+    var originalData: Data?
+    
+    // Kullanıcı ve admin bilgisi
+    var kullanici: User?              // Bu aracı ekleyen kullanıcı
+    var onaylayanAdmin: User?        // Onaylayan admin kullanıcı
+    //Adminden gelenler
+    var longituteAdmin: Double?
+    var latitudeAdmin: Double?
+    var nameAdmin: String?
+    var phoneAdmin: String?
+    // Kullanıcıdan gelenler
+    var emailKullanici: String?
+    var longituteHedef: Double?
+    var latitudeHedef: Double?
+    var longituteAnlik: Double?
+    var latitudeAnlik: Double?
+}
+
 
 
 

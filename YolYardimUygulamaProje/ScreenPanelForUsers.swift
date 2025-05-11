@@ -13,6 +13,7 @@ struct ScreenPanelForUsers: View {
     @State private var isShowLastik = false
     @State private var isShowCekici = false
     @State var selectedScreen = 1
+    @State var badgeList = 0
     
     init() {
         UITabBar.appearance().barTintColor = UIColor.black
@@ -27,13 +28,12 @@ struct ScreenPanelForUsers: View {
                 
                 VStack {
                     TabView(selection: $selectedScreen) {
-                        ScreenUserProposals()
+                        ScreenUserProposals(badgeList: $badgeList)
                             .tabItem {
                                 Label("Teklifler", systemImage: "message")
                             }.tag(0)
-                            .badge(2)
+                            .badge(badgeList)
                         
-                        // Ana ekran (lastik/çekici yönlendirme butonları burada)
                         ScreenUserMain(isShowLastikView: $isShowLastik, isShowCekicikView: $isShowCekici)
                             .tabItem {
                                 Label("Ana Ekran", systemImage: "house")

@@ -132,7 +132,6 @@ struct ScreenLastik: View {
                             .padding(.top, 30)
                     }
                     Spacer()
-                    // DEVAM ET BUTONU
                     
                     if location.latitude == 0.0 {
                         Text("Canlı Konumunuz alınacaktır...")

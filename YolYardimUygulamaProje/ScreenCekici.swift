@@ -1046,7 +1046,6 @@ struct ScreenCekici: View {
     
         
         
-        // MARK: - Custom Picker
         func customPicker(_ title: String, selection: Binding<String?>, options: [String]) -> some View {
             let binding = Binding<String>(
                 get: { selection.wrappedValue ?? "" },

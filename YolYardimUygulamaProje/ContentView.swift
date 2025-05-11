@@ -77,10 +77,8 @@ struct ContentView: View {
                                     case .success:
                                         isShowUserPanel.toggle()
                                     
-                                        // Giriş başarılı → ekran geçişi, alert vs.
                                         print("Giriş başarılı")
                                     case .failure(let error):
-                                        // Alert göster veya hata mesajı
                                         showAlert.toggle()
                                         print("Giriş başarısız: \(error.localizedDescription)")
                                     }
@@ -120,7 +118,6 @@ struct ContentView: View {
                                 .font(.subheadline)
                                 .foregroundColor(.white.opacity(0.7))
                             
-                            // E-posta TextField
                             TextField("E-posta", text: $email)
                                 .padding()
                                 .background(Color.white.opacity(0.1))
@@ -130,7 +127,6 @@ struct ContentView: View {
                                 .autocapitalization(.none)
                                 .disableAutocorrection(true)
                             
-                            // Parola SecureField
                             SecureField("Parola", text: $password)
                                 .padding()
                                 .background(Color.white.opacity(0.1))
@@ -148,10 +144,8 @@ struct ContentView: View {
                                     case .success:
                                         isShowAdminPanel.toggle()
                                         
-                                        // Giriş başarılı → ekran geçişi, alert vs.
                                         print("Giriş başarılı")
                                     case .failure(let error):
-                                        // Alert göster veya hata mesajı
                                         showAlert.toggle()
                                         print("Giriş başarısız: \(error.localizedDescription)")
                                     }
@@ -175,7 +169,7 @@ struct ContentView: View {
                     Spacer()
                     Button(action: {
                         isShowRegisterScreen.toggle()
-                        // Kayıt sayfasına geçiş
+                        // Kayıt sayfasına geçiş !!!
                     }) {
                         
                         Text("👤Yeni Hesap Oluştur")
@@ -220,11 +214,9 @@ struct ContentView: View {
             switch result {
             case .success(let user):
                 if user.isAdmin == false {
-                    // Bu kullanıcı admin, kullanıcı paneline alınmasın
+                    // Bu user kullanıcı paneline alınmasın
                     completion(.success(()))
                 } else {
-                    // Normal kullanıcı
-                
                     showAlert.toggle()
                 }
               
@@ -239,10 +231,8 @@ struct ContentView: View {
             switch result {
             case .success(let user):
                 if user.isAdmin == true {
-                    // Bu kullanıcı admin, kullanıcı paneline alınsın
                     completion(.success(()))
                 } else {
-                    // Normal kullanıcı
                     showAlert.toggle()
                 }
                 
