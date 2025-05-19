@@ -64,6 +64,52 @@ struct VasitaParseCekici: ParseObject {
     var latitudeAnlik: Double?
 }
 
+struct VasitaParseLastik: ParseObject {
+    var originalData: Data?
+    var objectId: String?
+    var createdAt: Date?
+    var updatedAt: Date?
+    var ACL: ParseSwift.ParseACL?
+    
+    var kullanici: User?
+    var emailKullanici: String?
+    var fullName: String?
+    var kategori: String?
+    var altKategori: String?
+    var marka: String?
+    var model: String?
+    var yil: String?
+    var genislik: String?
+    var oran: String?
+    var cap: String?
+    var mevsim: String?
+    var longituteAnlik: Double?
+    var latitudeAnlik: Double?
+    
+    
+}
+
+struct OnayliLastik: ParseObject {
+    var originalData: Data?
+    var objectId: String?
+    var createdAt: Date?
+    var updatedAt: Date?
+    var ACL: ParseSwift.ParseACL?
+    
+    var kullanici: User?
+    var onaylayanAdmin: User?
+    //Adminden Gelenler
+    var longituteAdmin: Double?
+    var latitudeAdmin: Double?
+    var nameAdmin: String?
+    var phoneAdmin: String?
+    //Kullanıcıdan gelenler
+    var longituteAnlik: Double?
+    var latitudeAnlik: Double?
+    var emailKullanici: String?
+
+}
+
 struct OnayliVasita: ParseObject {
     // Gerekli Parse alanları
     var objectId: String?

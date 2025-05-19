@@ -29,14 +29,14 @@ struct ScreenUserSettings: View {
                 Text("Ayarlar")
                     .font(.largeTitle.bold())
                     .foregroundColor(.white)
-                    .padding(10)
+                    .padding(.top,10)
                     .lineLimit(1)
                 ZStack {
                     RoundedRectangle(cornerRadius: 12)
                         .foregroundStyle(.orange.mix(with: .white, by: 0.4))
                         .frame(height: 100)
                         .shadow(color: .black, radius: 2)
-                        .padding()
+                        .padding(.horizontal)
                     
                     VStack() {
                         HStack {

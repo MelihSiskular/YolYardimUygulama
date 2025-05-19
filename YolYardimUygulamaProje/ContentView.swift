@@ -15,6 +15,7 @@ struct ContentView: View {
     @State private var selectedTab = 0
     @State private var isShowRegisterScreen = false
     
+
     @State private var isShowUserPanel = false
     @State private var isShowAdminPanel = false
 
@@ -75,7 +76,10 @@ struct ContentView: View {
                                 loginUser(email: email, password: password) { result in
                                     switch result {
                                     case .success:
+                                     
                                         isShowUserPanel.toggle()
+                                        email = ""
+                                        password = ""
                                     
                                         print("Giriş başarılı")
                                     case .failure(let error):
@@ -143,6 +147,8 @@ struct ContentView: View {
                                     switch result {
                                     case .success:
                                         isShowAdminPanel.toggle()
+                                        email = ""
+                                        password = ""
                                         
                                         print("Giriş başarılı")
                                     case .failure(let error):
@@ -159,6 +165,10 @@ struct ContentView: View {
                             .cornerRadius(10)
                             
                         }
+                        .onChange(of: selectedTab, { _, _ in
+                            email = ""
+                            password = ""
+                        })
                         .padding()
                         .tag(1)
                         
@@ -189,6 +199,20 @@ struct ContentView: View {
                     
                     Spacer()
                 }
+                .onAppear {
+                    email = ""
+                    password = ""
+                }
+//                .onAppear {
+//                    if User.current != nil {
+//                        if User.current?.isAdmin == true {
+//                            isShowAdminPanel.toggle()
+//                        }else {
+//                            isShowUserPanel.toggle()
+//                        }
+//                    }
+//                }
+              
                 
             }
             .navigationDestination(isPresented: $isShowRegisterScreen) {

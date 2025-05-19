@@ -16,6 +16,7 @@ struct ScreenPanelForAdmins: View {
         UITabBar.appearance().unselectedItemTintColor = UIColor.white
     }
     @State var selectedScreen = 0
+    @State private var badgeCekiciList = 0
     
     var body: some View {
         ZStack {
@@ -24,11 +25,11 @@ struct ScreenPanelForAdmins: View {
             VStack {
                 TabView(selection: $selectedScreen) {
                     
-                    ScreenMainForAdmins()
+                    ScreenMainForAdmins(badgeListCekici: $badgeCekiciList)
                         .tabItem {
                             Label("Ana Ekran", systemImage: "house")
                         }.tag(0)
-                        .badge(cekiciListesi.count)
+                        .badge(badgeCekiciList)
                     ScreenUserSettings()
                         .tabItem {
                             Label("Ayarlar", systemImage: "gear")
@@ -40,6 +41,8 @@ struct ScreenPanelForAdmins: View {
         }
         .onAppear {
             fetchCekiciVerileri()
+        }.onDisappear {
+            fetchCekiciVerileri()
         }
     }
     func fetchCekiciVerileri() {
@@ -48,6 +51,8 @@ struct ScreenPanelForAdmins: View {
             switch result {
             case .success(let veriler):
                 self.cekiciListesi = veriler
+                badgeCekiciList = cekiciListesi.count
+
             case .failure(let error):
                 print("Veri çekme hatası: \(error.localizedDescription)")
             }

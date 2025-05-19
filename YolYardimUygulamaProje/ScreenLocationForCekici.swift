@@ -42,7 +42,7 @@ struct ScreenLocationForCekici: View {
     )
     
     @State private var selectedPin: PinModel? = nil
-    @State private var address = "Haritada bir yere uzun basarak konum seçin"
+    @State private var address = "Konum Bekleniyor..."
     
     var body: some View {
         NavigationStack {
@@ -221,6 +221,7 @@ struct ScreenLocationForCekici: View {
         
         return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
+   
     
     func reverseGeocode(coordinate: CLLocationCoordinate2D) {
         let geocoder = CLGeocoder()

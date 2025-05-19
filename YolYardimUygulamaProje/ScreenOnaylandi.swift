@@ -14,6 +14,7 @@ struct ScreenOnaylandi: View {
     
     @State private var rotation = 0.0
     @State private var showButton = false
+    @State private var isShowMainScreen = false
     
     var body: some View {
         ZStack {
@@ -65,6 +66,7 @@ struct ScreenOnaylandi: View {
                             .shadow(radius: 4)
                     }
                     .transition(.opacity)
+                  
                 }
                 
                 Spacer()

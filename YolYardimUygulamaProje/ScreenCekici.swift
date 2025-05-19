@@ -107,6 +107,7 @@ struct ScreenCekici: View {
 
     
     @State private var isShowLocationScreen = false
+    @State private var isShowMainUsers = false
 
     
     @StateObject private var locationManager = LocationManager()
@@ -141,6 +142,7 @@ struct ScreenCekici: View {
                         .onChange(of: secilenKategori){ _,_ in
                             deleteModelsOtomobil()
                             deleteModelsSuv()
+                            deleteModelsMoto()
                             print("asdasd")
                         }
                     
@@ -844,6 +846,9 @@ struct ScreenCekici: View {
                        
                         
                     }
+                 
+                    .navigationBarBackButtonHidden()
+                  
                     .disabled( // Buton devre dışı mı?
 //                        secilenKategori == nil ||
 //                        secilenMarkaOtomobil == nil ||
@@ -860,6 +865,23 @@ struct ScreenCekici: View {
                     Spacer()
                     
                 }
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarLeading) {
+                        Button(action: {
+                            print("asd")
+                            isShowMainUsers.toggle()
+                        }) {
+                            Label("Geri", systemImage: "chevron.left")
+                        }
+                        .navigationDestination(isPresented: $isShowMainUsers) {
+                            ScreenPanelForUsers()
+                        }
+                        .disabled(false)
+                    }
+                }
+
+                
+                
                 
                 .padding()
             }

@@ -56,6 +56,50 @@ enum OtomobilMarka:String, CaseIterable, Identifiable, CustomStringConvertible{
     
 }
 
+//enum LastikCap:String, CaseIterable, Identifiable,CustomStringConvertible{
+//    case Arora, Bajaj, CFmoto, Hondamoto, Kuba, Mondial, RKS, SYM, TVS, Vespa, Yamaha
+//    
+//    var id: String { self.rawValue }
+//    
+//    
+//    var description: String {
+//        rawValue.replacingOccurrences(of: "_", with: " ")
+//    }
+//}
+//
+//enum LastikOran:String, CaseIterable, Identifiable,CustomStringConvertible{
+//    case Arora, Bajaj, CFmoto, Hondamoto, Kuba, Mondial, RKS, SYM, TVS, Vespa, Yamaha
+//    
+//    var id: String { self.rawValue }
+//    
+//    
+//    var description: String {
+//        rawValue.replacingOccurrences(of: "_", with: " ")
+//    }
+//}
+//
+//enum LastikGenislik:String, CaseIterable, Identifiable,CustomStringConvertible{
+//    case 145 ,155 ,165,175,185,195,205,215,225,235,245,255,265,275,285,295,305,315,325,335,345
+//    
+//    var id: String { self.rawValue }
+//    
+//    
+//    var description: String {
+//        rawValue.replacingOccurrences(of: "_", with: " ")
+//    }
+//}
+//
+//enum LastikMevsim:String, CaseIterable, Identifiable,CustomStringConvertible{
+//    case Yaz, Kış, Mevsimlik
+//    
+//    var id: String { self.rawValue }
+//    
+//    
+//    var description: String {
+//        rawValue.replacingOccurrences(of: "_", with: " ")
+//    }
+//}
+
 
 
 
